@@ -1,3 +1,6 @@
+import os
+import shutil
+
 import allure_commons
 from allure_commons.utils import host_tag, thread_tag
 from allure_commons.utils import md5
@@ -41,6 +44,10 @@ class AllureListener:
         if check_screenshot_exist(screenshot_name):
             test_case.attachments.append(
                 Attachment(name=screenshot_name, source=f"{screenshot_name}.png", type="image/png"))
+            test_case.attachments.append(
+                Attachment(name=f"{screenshot_name}.xml", source=f"{screenshot_name}.xml", type="text/plain"))
+            test_case.attachments.append(
+                Attachment(name=f"{self.file_name}.html", source=f"{self.file_name}.html", type="text/plain"))
         test_case.statusDetails = StatusDetails(message=message, trace=info_traceback)
         test_case.status = Status.FAILED
         self.reporter.schedule_test(self.current_test_uuid, test_case)
@@ -53,6 +60,10 @@ class AllureListener:
         if check_screenshot_exist(screenshot_name):
             test_case.attachments.append(
                 Attachment(name=screenshot_name, source=f"{screenshot_name}.png", type="image/png"))
+            test_case.attachments.append(
+                Attachment(name=f"{screenshot_name}.xml", source=f"{screenshot_name}.xml", type="text/plain"))
+            test_case.attachments.append(
+                Attachment(name=f"{self.file_name}.html", source=f"{self.file_name}.html", type="text/plain"))
         test_case.statusDetails = StatusDetails(message=message, trace=info_traceback)
         test_case.status = Status.BROKEN
         if get_test_name(test) == "setUpClass":
